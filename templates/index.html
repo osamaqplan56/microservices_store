@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة الهندسية المتميزة - بيئة 32-bit</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f4f8; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { color: #1a365d; margin-bottom: 5px; }
+        .subtitle { color: #718096; font-size: 14px; margin-bottom: 25px; }
+        
+        /* تصميم كروت الإحصائيات العلوية المميزة */
+        .analytics-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .analytic-card { background: linear-gradient(135deg, #2b6cb0, #3182ce); color: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(49,130,206,0.2); }
+        .analytic-card.green { background: linear-gradient(135deg, #2f855a, #38a169); }
+        .analytic-card.gold { background: linear-gradient(135deg, #b7791f, #d69e2e); }
+        .analytic-num { font-size: 22px; font-weight: bold; margin-top: 5px; }
+
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .box { background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px; text-align: right; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .box-title { font-size: 16px; font-weight: bold; color: #1a365d; border-bottom: 2px solid #edf2f7; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .btn { background-color: #3182ce; color: white; padding: 6px 14px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px; }
+        .btn:hover { background-color: #2b6cb0; }
+        .card { background: #f7fafc; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-right: 4px solid #3182ce; font-size: 13px; }
+        .wallet-card { border-right-color: #dd6b20; background: #fffaf0; }
+        .msg-card { border-right-color: #805ad5; background: #faf5ff; }
+        .review-card { border-right-color: #d69e2e; background: #fffdf5; }
+        .price { color: #e53e3e; font-weight: bold; }
+        .form-group { display: flex; gap: 10px; margin-bottom: 12px; }
+        .form-group input, .form-group textarea { padding: 8px; border: 1px solid #cbd5e0; border-radius: 5px; font-family: inherit; font-size: 13px; }
+    </style>
+</head>
+<body onload="runAllUpdates()">
+    <div class="container">
+        <h1>🚀 متجر الخدمات المصغرة الاحترافي المتفوق</h1>
+        <div class="subtitle">منظومة هندسية متكاملة تتضمن حماية أمان كلمات المرور ومحرك تحسين الذاكرة الحية ونظام الإحصائيات الحاد</div>
+        
+        <!-- شريط الإحصائيات الذكي والعلوي الجديد -->
+        <div class="analytics-bar">
+            <div class="analytic-card">
+                <div>💰 حجم التداول المالي (Volume)</div>
+                <div class="analytic-num" id="stat-volume">0.00$</div>
+            </div>
+            <div class="analytic-card green">
+                <div>📦 المبيعات المكتملة بالنظام</div>
+                <div class="analytic-num" id="stat-orders">0</div>
+            </div>
+            <div class="analytic-card gold">
+                <div>⭐ تقييم المتجر العام</div>
+                <div class="analytic-num" id="stat-rating">0.0 / 5</div>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            <!-- 1. قسم الخدمات -->
+            <div class="box">
+                <div class="box-title"><span>🛠️ دليل الخدمات المصغرة النشطة</span><button class="btn" onclick="loadServices()">🔄 تحديث</button></div>
+                <div id="services-box"><p style="text-align:center;color:#aaa;">جاري القراءة...</p></div>
+            </div>
+
+            <!-- 2. قسم المحافظ والأرصدة -->
+            <div class="box">
+                <div class="box-title"><span>💰 أرصدة حسابات المستخدمين (المحفظة)</span><button class="btn" onclick="loadWallets()" style="background:#dd6b20;">🔄 فحص المحافظ</button></div>
+                <div id="wallets-box"><p style="text-align:center;color:#aaa;">جاري القراءة...</p></div>
+            </div>
+
+            <!-- 3. قسم المبيعات والطلبات -->
+            <div class="box">
+                <div class="box-title"><span>📦 فواتير حركات الشراء المكتملة</span><button class="btn" onclick="loadOrders()" style="background:#38a169;">🔄 تحديث المبيعات</button></div>
+                <div id="orders-box"><p style="text-align:center;color:#aaa;">جاري القراءة...</p></div>
+            </div>
+
+            <!-- 4. قسم المحادثات وصندوق الرسائل المطور -->
+            <div class="box">
+                <div class="box-title">
+                    <span>💬 الرسائل والتواصل الداخلي</span>
+                    <div>
+                        <button class="btn" onclick="loadMessages()" style="background:#805ad5;">🔄 جلب</button>
+                        <button class="btn" onclick="optimizeMemory()" style="background:#e53e3e; font-weight:bold;">♻️ أرشفة الذاكرة</button>
+                    </div>
+                </div>
+                <div style="background:#f7fafc; padding:12px; border-radius:6px; margin-bottom:15px; border:1px dashed #805ad5;">
+                    <b style="font-size:13px; display:block; margin-bottom:8px; color:#805ad5;">✉️ إرسال رسالة فورية جديدة:</b>
+                    <div class="form-group"><input type="number" id="sender_id" placeholder="معرف المرسل" style="width:45%;"><input type="number" id="receiver_id" placeholder="معرف المستقبل" style="width:45%;"></div>
+                    <div class="form-group"><textarea id="msg_text" placeholder="اكتب نص رسالتك هنا..." style="width:100%; height:35px; resize:none;"></textarea></div>
+                    <button class="btn" onclick="sendMessage()" style="background:#805ad5; width:100%;">🚀 إرسال الرسالة</button>
+                </div>
+                <div id="messages-box"><p style="text-align:center;color:#aaa;">جاري القراءة...</p></div>
+            </div>
+
+            <!-- 5. قسم التقييمات -->
+            <div class="box" style="grid-column: span 2;">
+                <div class="box-title"><span>⭐ تقييمات العملاء وآراء المشترين بالخدمات</span><button class="btn" onclick="loadReviews()" style="background:#d69e2e;">🔄 جلب التقييمات</button></div>
+                <div style="background:#fffdf5; padding:15px; border-radius:8px; margin-bottom:20px; border:1px dashed #d69e2e; text-align:right;">
+                    <b style="font-size:13px; display:block; margin-bottom:8px; color:#b7791f;">✍️ إضافة تقييم ومراجعة لطلب شراء مكتمل:</b>
+                    <div class="form-group">
+                        <input type="number" id="review_order_id" placeholder="رقم الطلب (Order ID)" style="width:30%;">
+                        <input type="number" id="review_rating" placeholder="التقييم بالنجوم (1 إلى 5)" min="1" max="5" style="width:30%;">
+                        <input type="text" id="review_comment" placeholder="اكتب رأيك الصريح في الخدمة..." style="width:40%;">
+                    </div>
+                    <button class="btn" onclick="sendReview()" style="background:#d69e2e; width:100%;">⭐ نشر التقييم والمراجعة في المتجر</button>
+                </div>
+                <div id="reviews-box" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;"><p style="text-align:center;color:#aaa; grid-column: span 2;">جاري القراءة...</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function runAllUpdates() { loadAnalytics(); loadServices(); loadWallets(); loadOrders(); loadMessages(); loadReviews(); }
+        
+        // دالة جلب الإحصائيات وتحديث الكروت العلوية تلقائياً
+        function loadAnalytics() {
+            fetch('/api/analytics').then(r => r.json()).then(data => {
+                document.getElementById('stat-volume').innerText = data.financial_volume + '$';
+                document.getElementById('stat-orders').innerText = data.total_orders_processed;
+                document.getElementById('stat-rating').innerText = data.store_average_rating + ' / 5';
+            });
+        }
+
+        function loadServices() {
+            fetch('/api/services').then(r => r.json()).then(data => {
+                const b = document.getElementById('services-box'); b.innerHTML = '';
+                data.forEach(s => b.innerHTML += `<div class="card">📌 الخدمة رقم <b>#${s.service_id}</b><br><b>${s.title}</b><br>${s.description}<br><span class="price">${s.price}$</span></div>`);
+            });
+        }
+        function loadWallets() {
+            fetch('/api/users').then(r => r.json()).then(data => {
+                const b = document.getElementById('wallets-box'); b.innerHTML = '';
+                data.forEach(u => b.innerHTML += `<div class="card wallet-card">👤 المستخدم #${u.user_id}: <b>${u.username}</b> <br> 💵 رصيد المحفظة: <b style="color:#2b6cb0;">${u.wallet_balance}$</b></div>`);
+            });
+        }
+        function loadOrders() {
+            fetch('/api/orders').then(r => r.json()).then(data => {
+                const b = document.getElementById('orders-box'); b.innerHTML = '';
+                data.forEach(o => b.innerHTML += `<div class="card" style="border-right-color:#38a169;">📦 طلب شراء رقم <b>#${o.order_id}</b> | لخدمة رقم #${o.service_id} <br> المشتري رقم #${o.buyer_id} | الفاتورة: <span class="price">${o.total_price}$</span></div>`);
+                loadAnalytics(); // تحديث شريط الأرقام مع كل حركة شراء جديدة
+            });
+        }
+        function loadMessages() {
